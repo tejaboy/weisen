@@ -166,7 +166,7 @@ function wait(click = true, space = true, enter = true, return_statement = null)
 	{
 		if (click)
 		{
-			$("#say").one("click", function(e)
+			$("#game").one("click", function(e)
 			{
 				wait_finish(resolve, return_statement);
 			});
