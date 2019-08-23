@@ -45,8 +45,9 @@ function _WeiSen()
 	this.say = function(name, msg, returnPromise = true)
 	{
 		console.log(name + " say: " + msg);
+		
 		$("#say_name").html(name);
-		$("#say_msg").html(msg);
+		new Typed("#say_msg", { strings: ["", msg], typeSpeed: 12 });
 		$("#say_msg").fadeIn();
 		
 		if (!returnPromise) return;
