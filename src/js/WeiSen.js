@@ -66,6 +66,8 @@ function _WeiSen()
 		// Check if sprite is in preloaded objects
 		if (sprite in this.preloaded["images"])
 			sprite = this.preloaded["images"][sprite].src;
+		else
+			sprite = this.get_image_path(sprite)
 		
 		// Add the sprite to DOM and hide it for animation
 		$(game).append("<img class='sprite sprite_" + name + "' style='max-height: 100%; max-width: auto;' src='" + sprite + " '/>");
