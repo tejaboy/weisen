@@ -1,5 +1,8 @@
 function _WeiSen()
 {
+	this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+	this.IMAGE_PATH = "/images/";
+	
 	this.preloaded = {"images": {}}
 	
 	this.set_size = function(height, width)
@@ -24,12 +27,16 @@ function _WeiSen()
 	/* Preloading Images */
 	this.preload_image = function(tag, url)
 	{
+		url = this.get_image_path(url);
+		
 		this.preloaded["images"][tag] = new Image();
 		this.preloaded["images"][tag].src = url;
 	}
 	
 	this.set_background = function(url, size = "cover")
 	{
+		url = this.get_image_path(url);
+		
 		console.log("Change background to: " + url);
 		$(game).css("background-image", "url('" + url + "')");
 		$(game).css("background-size", size);
@@ -133,6 +140,14 @@ function _WeiSen()
 			});
 		});
 	}
+	
+	// HELPERS
+	this.get_image_path = function(url)
+	{
+		url = this.ROOT_PATH + this.IMAGE_PATH + url;
+		
+		return url;
+	}
 }
 
 function Character(name)
@@ -195,6 +210,7 @@ function wait_finish(resolve, return_statement)
 	});
 }
 
+// MISC
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
