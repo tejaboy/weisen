@@ -8,13 +8,50 @@ JavaScript Visual Novel Library
 
 ## Prerequisites
 
-1. Working browser (with JavaScript) - works best in Mozilla Firefox.
+1. Working browser (with JavaScript enabled) - works best in Mozilla Firefox and Google Chrome.
 
 ## Installation
 
 1. Download or clone the repo to your machine.
-2. Open up Example.htm in browser to preview the example visual novel.
-3. Open up VisualNovel.js in an plain-text editor to see the example source code.
+
+## Usage
+
+### Head
+To use WeiSen.js, create a new HTML file and include the following content in your `head` tag.
+
+'''
+<!-- WeiSen.css -->
+<link rel="stylesheet" href="../src/css/WeiSen.css" />
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- WeiSen.js -->
+<script src="../src/js/WeiSen.js"></script>
+		
+<!-- Storyline -->
+<script src="VisualNovel.js" async></script>
+'''
+
+Remember to change the path of WeiSen.css and WeiSen.js to where you place the file.
+
+### Body
+
+The following tags are required in the `body` tag for WeiSen to work properly.
+
+'''
+<div id="game">
+  <div id="choices">
+  </div>
+ 
+  <div id="say">
+  <p id="say_msg"></p>
+</div>
+'''
+
+### Scripting
+
+Check `example/VisualNovel.js` for the demo script.
 
 ## Authors
 * [tejaboy](https://github.com/tejaboy)
