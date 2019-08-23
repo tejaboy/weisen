@@ -48,6 +48,8 @@ function _WeiSen()
 		
 		$("#say_name").html(name);
 		new Typed("#say_msg", { strings: ["", msg], typeSpeed: 12 });
+		
+		$("#say_name").fadeIn();
 		$("#say_msg").fadeIn();
 		
 		if (!returnPromise) return;
@@ -198,13 +200,18 @@ function wait(click = true, space = true, enter = true, return_statement = null)
 		$(document).on("keypress", function(e)
 		{
 			if (enter && e.which == 13 || space && e.which == 32)
+			{
+				e.preventDefault();
 				wait_finish(resolve, return_statement);
+			}
 		});
 	});
 }
 
 function wait_finish(resolve, return_statement)
 {
+	$("#say_name").fadeOut(400);
+	
 	return $("#say_msg").fadeOut(400, function()
 	{
 		$("#say").off("click");
