@@ -19,7 +19,7 @@ JavaScript Visual Novel Library
 ### Head
 To use WeiSen.js, create a new HTML file and include the following content in your `head` tag.
 
-'''
+```html
 <!-- WeiSen.css -->
 <link rel="stylesheet" href="../src/css/WeiSen.css" />
 
@@ -31,7 +31,7 @@ To use WeiSen.js, create a new HTML file and include the following content in yo
 		
 <!-- Storyline -->
 <script src="VisualNovel.js" async></script>
-'''
+```
 
 Remember to change the path of WeiSen.css and WeiSen.js to where you place the file.
 
@@ -39,7 +39,7 @@ Remember to change the path of WeiSen.css and WeiSen.js to where you place the f
 
 The following tags are required in the `body` tag for WeiSen to work properly.
 
-'''
+```html
 <div id="game">
   <div id="choices">
   </div>
@@ -47,7 +47,7 @@ The following tags are required in the `body` tag for WeiSen to work properly.
   <div id="say">
   <p id="say_msg"></p>
 </div>
-'''
+```
 
 ### Scripting
 
