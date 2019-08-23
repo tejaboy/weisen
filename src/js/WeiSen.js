@@ -144,6 +144,10 @@ function _WeiSen()
 	// HELPERS
 	this.get_image_path = function(url)
 	{
+		// If it is not local resource, return.
+		if (url.substr(0, 4) == "http")
+			return url
+		
 		url = this.ROOT_PATH + this.IMAGE_PATH + url;
 		
 		return url;
