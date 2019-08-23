@@ -11,44 +11,73 @@ html, body
 	width: 100px;
 }
 
-#say, #choices
+#choices
 {
 	position: absolute;
 	border-radius: 15px;
 	z-index: 1;
-	cursor: pointer;
 }
 
-#say
+#say_msg, #say_name
 {
-	background-color: rgba(255, 255, 255, 0.45);
+	background-color: rgba(0, 0, 0, 0.45);
 	box-shadow: 0 0 5px rgba(140, 255, 140, 0.5);
 }
 
-#say:hover
+#say_name
 {
-	background-color: rgba(255, 255, 255, 0.5);
+	position: fixed;
+	bottom: 20%;
+	left: 10%;
+	border-radius: 2px;
+	color: white;
+	font-size: 1em;
+	
+	color: white;
+	font-family: sans-serif;
+	padding: 6px 10px;
+}
+
+#say_msg
+{
+	position: fixed;
+	margin-top: 81vh;
+	height: 15vh;
+	left: 10%;
+	width: 80%;
+	border-radius: 2px;
+}
+
+#say_msg:hover
+{
+	background-color: rgba(0, 0, 0, 0.5);
 	box-shadow: 0 0 5px rgba(255, 255, 255, 1);
 }
 
 #say_msg, .choice
 {
-	color: black;
+	color: white;
 	font-family: sans-serif;
-	padding: 0 10px;
+	padding: 6px 10px;
+	z-index: 1;
+	cursor: pointer;
 }
 
 #say_input
 {
+	display: inline-block;
 	font-style: italic;
+	background: rgba(20, 20, 20, 0.4);
+	border: thin solid white;
+	width: 200px;
 }
 
 .choice
 {
-	background-color: rgba(255, 255, 255, 0.45);
+	background-color: rgba(0, 0, 0, 0.45);
 	box-shadow: 0 0 5px rgba(140, 255, 140, 0.5);
 	padding: 10px 0;
-	border-radius: 15px;
+	border-radius: 5px;
 	font-style: italic;
 	text-align: center;
 }

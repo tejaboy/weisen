@@ -6,7 +6,7 @@ async function startGame()
 	preload();
 	
 	WeiSen.set_size("100vh", "100vw");
-	WeiSen.set_background("background.jpg");
+	WeiSen.set_background("background.png");
 	
 	JingSen = new Character("Jing Sen");
 	

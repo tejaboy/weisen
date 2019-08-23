@@ -45,7 +45,8 @@ function _WeiSen()
 	this.say = function(name, msg, returnPromise = true)
 	{
 		console.log(name + " say: " + msg);
-		$("#say_msg").html(name + " say: " + msg);
+		$("#say_name").html(name);
+		$("#say_msg").html(msg);
 		$("#say_msg").fadeIn();
 		
 		if (!returnPromise) return;
@@ -135,7 +136,7 @@ function _WeiSen()
 			{
 				choice = $(e.target);
 				
-				choice.css("background-color", "rgba(255, 255, 20, 0.8)");
+				choice.css("background-color", "rgba(0, 0, 0, 0.8)");
 				$("#choices").fadeOut();
 				
 				wait_finish(resolve, choice.text());
