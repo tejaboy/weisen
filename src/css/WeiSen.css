@@ -91,3 +91,9 @@ html, body
 {
 	position: absolute;
 }
+
+.ws-live2d
+{
+	position: absolute !important;
+	z-index: 1;
+}

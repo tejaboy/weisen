@@ -62,41 +62,66 @@ function _WeiSen()
 		console.log("Showing: " + name + " (" + sprite + ")");
 		
 		name = name.replaceAll(" ", "_");
+		selector = name + '-sprite';
+		isLive2D = sprite.split(".")[sprite.split(".").length - 1] == 'json'
 		
-		// Remove previous named sprite
-		if ($(".sprite_" + name)[0])
-			WeiSen.hide(name);
-		
-		// Check if sprite is in preloaded objects
-		if (sprite in this.preloaded["images"])
-			sprite = this.preloaded["images"][sprite].src;
-		else
-			sprite = this.get_image_path(sprite)
-		
-		// Add the sprite to DOM and hide it for animation
-		$(game).append("<img class='sprite sprite_" + name + "' style='max-height: 100%; max-width: auto;' src='" + sprite + " '/>");
-		$(".sprite_" + name).hide();
-		
-		// Additional CSS property
+		// Convert CSS JSON String to dictionary
 		if (typeof css == "string")
 			css = JSON.parse(css);
 		
+		// Remove exisiting sprite/live2d
+		if ($(".sprite_" + name)[0])
+			WeiSen.hide(name);
+		
+		// Remove previous named sprite
+		if (!isLive2D)
+		{
+			// Check if sprite is in preloaded objects
+			if (sprite in this.preloaded["images"])
+				sprite = this.preloaded["images"][sprite].src;
+			else
+				sprite = this.get_image_path(sprite)
+			
+			// Add the sprite to DOM and hide it for animation
+			$(game).append("<img id='" + selector + "' class='sprite' style='max-height: 100%; max-width: auto;' src='" + sprite + " '/>");
+			$("#" + selector).hide();
+		}
+		else
+		{
+			name = name.replaceAll(" ", "_");
+			
+			$("#game").append('<canvas id="' + selector + '" width="280" height="400" class="ws-live2d"></canvas>');
+			
+			if (css["width"] != undefined)
+				$("#" + selector).prop("width", css["width"])
+			
+			if (css["height"] != undefined)
+				$("#" + selector).prop("height", css["height"])
+			
+			loadlive2d(selector, sprite);
+		}
+		
+		// Additional CSS property
 		for (var property in css)
 		{
 			if (css.hasOwnProperty(property))
 			{
-				$(".sprite_" + name).css(property, css[property])
+				$("#" + name + "-sprite").css(property, css[property])
 			}
 		}
 		
 		// Wait for fadeIn() to finish
 		return new Promise(function(resolve, reject)
 		{
-			$(".sprite_" + name).fadeIn(400, function(e)
+			$("#" + selector).fadeIn(400, function(e)
 			{
 				resolve("done!");
 			});
 		});
+	}
+	
+	this.show_live2d = function(name, model, css)
+	{
 	}
 	
 	this.hide = function(name)
@@ -172,6 +197,11 @@ function Character(name)
 	this.show = function(url, position)
 	{
 		return WeiSen.show(name, url, position);
+	}
+	
+	this.show_live2d = function(url, position)
+	{
+		return WeiSen.show_live2d(name, url, position);
 	}
 	
 	this.hide = function()
