@@ -93,8 +93,6 @@ class _WeiSen
 		}
 		else
 		{
-			name = name.replaceAll(" ", "_");
-			
 			$("#game").append('<canvas id="' + selector + '" width="280" height="400" class="ws-live2d"></canvas>');
 			
 			if (css["width"] != undefined)
@@ -130,10 +128,17 @@ class _WeiSen
 		$(".sprite_" + name.replaceAll(" ", "_")).remove();
 	}
 	
-	prompt(msg, default_value)
+	prompt(msg, default_value, name = undefined)
 	{
 		console.log("Prompting " + msg);
-		$("#say_msg").html(msg + "<span id='say_input' contentEditable='true'>" + default_value + "</span>");
+		
+		if (name != undefined)
+		{
+			$("#say_name").html(name);
+			$("#say_name").show();
+		}
+		
+		$("#say_msg").html(msg + "<br /><span id='say_input' contentEditable='true'>" + default_value + "</span>");
 		$("#say_msg").fadeIn(400, function(e)
 		{
 			$("#say_input").focus().select();
@@ -252,6 +257,11 @@ class Character
 	hide()
 	{
 		return WeiSen.hide(this.name);
+	}
+	
+	prompt(msg, default_value)
+	{
+		return WeiSen.prompt(msg, default_value, this.name);
 	}
 	
 	ask_choose(choices, msg)

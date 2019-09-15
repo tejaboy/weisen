@@ -15,8 +15,7 @@ async function startGame()
 	
 	if (reply == "Yes")
 	{
-		await JingSen.say("Awesome! What is your name?")
-		var MC = new Character(await WeiSen.prompt("Enter your name: ", "Satoshi"));
+		var MC = new Character(await JingSen.prompt("Awesome! What is your name?", "Satoshi"));
 		
 		await JingSen.say(MC.name + "? What a wonderful name!")
 		var reply = await JingSen.ask_choose(["Kinetic", "Otome", "Bishoujo", "Educational", "Drama", "Comedy"], "And ... what's kind of visual novel do you plan to develop?")
