@@ -1,12 +1,12 @@
 # weisen
 JavaScript Visual Novel Library
 
-[Github Wiki](https://github.com/tejaboy/weisen/wiki)
-[Documentations](https://drive.google.com/open?id=1Gm0RsLQXzB08mARla8tCY09dmTOqmkkC37LqiO8-8Vo) *a bit outdated*
-[Demo Visual Novel](https://weisen.me/Game.htm?pid=1)
+[Github Wiki](https://github.com/tejaboy/weisen/wiki)  
+[Documentations](https://drive.google.com/open?id=1Gm0RsLQXzB08mARla8tCY09dmTOqmkkC37LqiO8-8Vo) *a bit outdated*  
+[Demo Visual Novel](https://weisen.me/Game.htm?pid=1)  
 
-# [Getting Started](https://github.com/tejaboy/weisen/wiki/Getting-Started)
-# [Workflow](https://github.com/tejaboy/weisen/wiki/Workflow)
+[Getting Started](https://github.com/tejaboy/weisen/wiki/Getting-Started)
+[Workflow](https://github.com/tejaboy/weisen/wiki/Workflow)
 
 ## Authors
 * [tejaboy](https://github.com/tejaboy)
