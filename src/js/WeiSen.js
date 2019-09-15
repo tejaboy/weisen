@@ -114,9 +114,9 @@ class _WeiSen
 		}
 		
 		// Wait for fadeIn() to finish
-		return new Promise(function(resolve, reject)
+		return new Promise((resolve, reject) =>
 		{
-			$("#" + selector).fadeIn(400, function(e)
+			$("#" + selector).fadeIn(400, (e) =>
 			{
 				resolve("done!");
 			});
@@ -139,7 +139,7 @@ class _WeiSen
 		}
 		
 		$("#say_msg").html(msg + "<br /><span id='say_input' contentEditable='true'>" + default_value + "</span>");
-		$("#say_msg").fadeIn(400, function(e)
+		$("#say_msg").fadeIn(400, (e) =>
 		{
 			$("#say_input").focus().select();
 		});
@@ -164,9 +164,9 @@ class _WeiSen
 		}
 		
 		// Wait for choice click
-		return new Promise(function(resolve, reject)
+		return new Promise((resolve, reject) =>
 		{
-			$(".choice").one("click", function(e)
+			$(".choice").one("click", (e) =>
 			{
 				var choice = $(e.target);
 				
@@ -272,17 +272,17 @@ class Character
 
 function wait(click = true, space = true, enter = true, return_statement = null)
 {
-	return new Promise(function(resolve, reject)
+	return new Promise((resolve, reject) =>
 	{
 		if (click)
 		{
-			$("#game").one("click", function(e)
+			$("#game").one("click", (e) =>
 			{
 				wait_finish(resolve, return_statement);
 			});
 		}
 		
-		$(document).on("keypress", function(e)
+		$(document).on("keypress", (e) =>
 		{
 			if (enter && e.which == 13 || space && e.which == 32)
 			{
@@ -297,7 +297,7 @@ function wait_finish(resolve, return_statement)
 {
 	$("#say_name").fadeOut(400);
 	
-	return $("#say_msg").fadeOut(400, function()
+	return $("#say_msg").fadeOut(400, () =>
 	{
 		$("#say").off("click");
 		$(document).off("keypress");
@@ -311,7 +311,7 @@ function wait_finish(resolve, return_statement)
 }
 
 // Key Handlers
-$(document).keyup(function(e)
+$(document).keyup((e) =>
 {
 	// Show Load Game
 	if (e.key === "Escape") {
