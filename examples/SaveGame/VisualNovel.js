@@ -1,4 +1,3 @@
-WeiSen = new _WeiSen();
 startGame();
 
 async function startGame()

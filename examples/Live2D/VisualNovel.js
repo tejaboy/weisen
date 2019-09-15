@@ -1,6 +1,5 @@
 // Note: In order to utilize Live2D in your game, it has to be hosted on a server. For testing, 'Web Server for Chrome' would be alright.
 
-WeiSen = new _WeiSen();
 startGame();
 
 async function startGame()

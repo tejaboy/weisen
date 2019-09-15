@@ -1,13 +1,16 @@
-function _WeiSen()
+class _WeiSen
 {
-	this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
-	this.IMAGE_PATH = "/images/";
-	this.saveData = {}
-	this.saveFunction = {}
+	constructor()
+	{
+		this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+		this.IMAGE_PATH = "/images/";
+		this.saveData = {}
+		this.saveFunction = {}
+		
+		this.preloaded = {"images": {}}
+	}
 	
-	this.preloaded = {"images": {}}
-	
-	this.set_size = function(height, width)
+	set_size(height, width)
 	{
 		this.height = height;
 		this.width = width;
@@ -27,7 +30,7 @@ function _WeiSen()
 	}
 	
 	/* Preloading Images */
-	this.preload_image = function(tag, url)
+	preload_image(tag, url)
 	{
 		url = this.get_image_path(url);
 		
@@ -35,7 +38,7 @@ function _WeiSen()
 		this.preloaded["images"][tag].src = url;
 	}
 	
-	this.set_background = function(url, size = "cover")
+	set_background(url, size = "cover")
 	{
 		url = this.get_image_path(url);
 		
@@ -44,7 +47,7 @@ function _WeiSen()
 		$(game).css("background-size", size);
 	}
 	
-	this.say = function(name, msg, returnPromise = true)
+	say(name, msg, returnPromise = true)
 	{
 		console.log(name + " say: " + msg);
 		
@@ -59,13 +62,13 @@ function _WeiSen()
 		return wait();
 	}
 	
-	this.show = async function(name, sprite, css)
+	async show(name, sprite, css)
 	{
 		console.log("Showing: " + name + " (" + sprite + ")");
 		
 		name = name.replaceAll(" ", "_");
-		selector = name + '-sprite';
-		isLive2D = sprite.split(".")[sprite.split(".").length - 1] == 'json'
+		var selector = name + '-sprite';
+		var isLive2D = sprite.split(".")[sprite.split(".").length - 1] == 'json'
 		
 		// Convert CSS JSON String to dictionary
 		if (typeof css == "string")
@@ -122,16 +125,12 @@ function _WeiSen()
 		});
 	}
 	
-	this.show_live2d = function(name, model, css)
-	{
-	}
-	
-	this.hide = function(name)
+	hide(name)
 	{
 		$(".sprite_" + name.replaceAll(" ", "_")).remove();
 	}
 	
-	this.prompt = function(msg, default_value)
+	prompt(msg, default_value)
 	{
 		console.log("Prompting " + msg);
 		$("#say_msg").html(msg + "<span id='say_input' contentEditable='true'>" + default_value + "</span>");
@@ -143,7 +142,7 @@ function _WeiSen()
 		return wait(false, false, true, $("#say_input"));
 	}
 	
-	this.ask_choose = function(choices, msg, name)
+	ask_choose(choices, msg, name)
 	{
 		$("#choices").html("");
 		
@@ -164,7 +163,7 @@ function _WeiSen()
 		{
 			$(".choice").one("click", function(e)
 			{
-				choice = $(e.target);
+				var choice = $(e.target);
 				
 				choice.css("background-color", "rgba(0, 0, 0, 0.8)");
 				$("#choices").fadeOut();
@@ -175,7 +174,7 @@ function _WeiSen()
 	}
 	
 	/* Save Game */
-	this.save_game = function()
+	save_game()
 	{
 		//localStorage.setItem("ws", JSON.stringify([]));
 		// Load ws
@@ -205,7 +204,7 @@ function _WeiSen()
 		console.log(localStorage.getItem(ws));
 	}
 	
-	this.load_game = function(data)
+	load_game(data)
 	{
 		this.saveData = data.saveData;
 		this.saveFunction = data.saveFunction;
@@ -219,7 +218,7 @@ function _WeiSen()
 	}
 	
 	// HELPERS
-	this.get_image_path = function(url)
+	get_image_path(url)
 	{
 		// If it is not local resource, return.
 		if (url.substr(0, 4) == "http")
@@ -231,31 +230,31 @@ function _WeiSen()
 	}
 }
 
-function Character(name)
+var WeiSen = new _WeiSen();
+
+class Character
 {
-	this.name = name;
-	
-	this.say = function(msg)
+	constructor(name)
 	{
-		return WeiSen.say(name, msg);
+		this.name = name;
 	}
 	
-	this.show = function(url, position)
+	say(msg)
 	{
-		return WeiSen.show(name, url, position);
+		return WeiSen.say(this.name, msg);
 	}
 	
-	this.show_live2d = function(url, position)
+	show(url, position)
 	{
-		return WeiSen.show_live2d(name, url, position);
+		return WeiSen.show(this.name, url, position);
 	}
 	
-	this.hide = function()
+	hide()
 	{
-		return WeiSen.hide(name);
+		return WeiSen.hide(this.name);
 	}
 	
-	this.ask_choose = function(choices, msg)
+	ask_choose(choices, msg)
 	{
 		return WeiSen.ask_choose(choices, msg, this.name);
 	}
