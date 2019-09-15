@@ -2,6 +2,8 @@ function _WeiSen()
 {
 	this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
 	this.IMAGE_PATH = "/images/";
+	this.saveData = {}
+	this.saveFunction = {}
 	
 	this.preloaded = {"images": {}}
 	
@@ -172,6 +174,50 @@ function _WeiSen()
 		});
 	}
 	
+	/* Save Game */
+	this.save_game = function()
+	{
+		//localStorage.setItem("ws", JSON.stringify([]));
+		// Load ws
+		var ws = localStorage.getItem("ws")
+		
+		if (ws == null)
+			ws = [];
+		else
+			ws = JSON.parse(ws);
+		
+		var saveObject = {
+				"saveData": this.saveData,
+				"saveFunction": this.saveFunction
+			}
+		
+		if (WeiSen.saveSlot == null)
+		{
+			ws.push(saveObject);
+			
+			WeiSen.saveSlot = ws.length;
+		}
+		else
+			ws[slot] = saveObject;
+		
+		localStorage.setItem("ws", JSON.stringify(ws));
+		
+		console.log(localStorage.getItem(ws));
+	}
+	
+	this.load_game = function(data)
+	{
+		this.saveData = data.saveData;
+		this.saveFunction = data.saveFunction;
+		
+		try { eval(this.saveFunction + "()"); } catch {}
+		
+		$("#game-overlay").fadeOut(400, () =>
+		{
+			$("#game-overlay").remove();
+		});
+	}
+	
 	// HELPERS
 	this.get_image_path = function(url)
 	{
@@ -253,6 +299,59 @@ function wait_finish(resolve, return_statement)
 		
 		resolve(return_statement);
 	});
+}
+
+// Key Handlers
+$(document).keyup(function(e)
+{
+	// Show Load Game
+	if (e.key === "Escape") {
+		showEscapeMenu();
+    }
+});
+
+function showEscapeMenu()
+{
+	if (!$("#game-overlay").length)
+	{
+		// Create HTML Element
+		$("#game").prepend("<div id='game-overlay'><h1>Save Files</h1></div>");
+		
+		// Load save files
+		var ws = JSON.parse(localStorage.getItem("ws"));
+		
+		if (ws == null)
+			ws = []
+		
+		// Append save files
+		for (var i = 0; i < ws.length; i++)
+		{
+			$("#game-overlay").append("<span class='save-btn' data-slot='" + i + "'>Save #" + i + "</span>");
+		}
+		
+		// Set click listener
+		$("#game-overlay .save-btn").on("click", (evt) =>
+		{
+			WeiSen.saveSlot = $(evt.target).data("slot");
+			
+			WeiSen.load_game(ws[WeiSen.saveSlot]);
+		});
+		
+		// CSS and Animation
+		$("#game-overlay").hide();
+		$("#game-overlay").css({
+			"width": $("#game").css("width"),
+			"height": $("#game").css("height")
+		});
+		$("#game-overlay").fadeIn();
+	}
+	else
+	{
+		$("#game-overlay").fadeOut(400, () =>
+		{
+			$("#game-overlay").remove();
+		});
+	}
 }
 
 // MISC

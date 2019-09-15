@@ -9,6 +9,36 @@ html, body
 	position: relative;
 	height: 200px;
 	width: 100px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+#game-overlay
+{
+	position: relative;
+	background: rgb(73,80,17);
+	background: linear-gradient(180deg, rgba(73,80,17,1) 0%, rgba(9,121,91,1) 20%, rgba(0,212,255,1) 100%);
+	padding: 1.5em 0;
+	z-index: 10;
+}
+
+#game-overlay h1
+{
+	margin: 0;
+	margin-bottom: 12px;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+#game-overlay .save-btn
+{
+	width: 100%;
+	font-size: 2em;
+	display: block;
+	background-color: rgba(255, 255, 255, 0.6);
+	border: 2px dotted white;
+	margin: 4px 0;
+	cursor: pointer;
 }
 
 #choices
