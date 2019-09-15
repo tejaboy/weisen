@@ -38,6 +38,7 @@ class _WeiSen
 		this.preloaded["images"][tag].src = url;
 	}
 	
+	/* Set Background */
 	set_background(url, size = "cover")
 	{
 		url = this.get_image_path(url);
@@ -47,6 +48,17 @@ class _WeiSen
 		$(game).css("background-size", size);
 	}
 	
+	/* Message Box*/
+	show_msg()
+	{
+		$("#say_name, #say_msg").fadeIn();
+	}
+	
+	hide_msg()
+	{
+		$("#say_name, #say_msg").fadeOut();
+	}
+	
 	say(name, msg, returnPromise = true)
 	{
 		console.log(name + " say: " + msg);
@@ -54,8 +66,7 @@ class _WeiSen
 		$("#say_name").html(name);
 		$("#say_msg").html(msg);
 		
-		$("#say_name").fadeIn();
-		$("#say_msg").fadeIn();
+		this.show_msg()
 		
 		if (!returnPromise) return;
 		
