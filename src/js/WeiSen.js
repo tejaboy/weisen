@@ -52,7 +52,7 @@ class _WeiSen
 		console.log(name + " say: " + msg);
 		
 		$("#say_name").html(name);
-		new Typed("#say_msg", { strings: ["", msg], typeSpeed: 12 });
+		$("#say_msg").html(msg);
 		
 		$("#say_name").fadeIn();
 		$("#say_msg").fadeIn();
@@ -295,19 +295,14 @@ function wait(click = true, space = true, enter = true, return_statement = null)
 
 function wait_finish(resolve, return_statement)
 {
-	$("#say_name").fadeOut(400);
+	$("#say").off("click");
+	$(document).off("keypress");
+	$(".choice").off("click");
 	
-	return $("#say_msg").fadeOut(400, () =>
-	{
-		$("#say").off("click");
-		$(document).off("keypress");
-		$(".choice").off("click");
-		
-		if (return_statement instanceof jQuery)
-			return_statement = $(return_statement).text();
-		
-		resolve(return_statement);
-	});
+	if (return_statement instanceof jQuery)
+		return_statement = $(return_statement).text();
+	
+	resolve(return_statement);
 }
 
 // Key Handlers
