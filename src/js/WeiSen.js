@@ -25,8 +25,10 @@ class _WeiSen
 		this.heightEnder = height.replace(/[0-9]/g, '');
 		this.widthEnder = width.replace(/[0-9]/g, '');
 		
-		$(game).css("height", height);
-		$(game).css("width", width);
+		$("#game").css("height", height);
+		$("#game").css("width", width);
+		$("#visual-novel").css("height", height);
+		$("#visual-novel").css("width", width);
 		
 		$("#say").css("width", parseInt(width) * 0.8 + this.widthEnder);
 		$("#say").css("right", parseInt(width) * 0.1 + this.widthEnder);
@@ -407,7 +409,7 @@ class _WeiSen
 		} 
 		catch
 		{
-			console.warn("No save function detected! Skipped!")
+			console.warn("No save function detected (or function does not exist)! Skipped!")
 		}
 		
 		WeiSen.hide_menu();
@@ -483,7 +485,7 @@ function wait(click = true, space = true, enter = true, return_statement = null)
 	{
 		if (click)
 		{
-			$("#game").one("click", (e) =>
+			$("#visual-novel").one("click", (e) =>
 			{
 				wait_finish(resolve, return_statement);
 			});
