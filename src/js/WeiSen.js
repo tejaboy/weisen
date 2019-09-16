@@ -221,6 +221,62 @@ class _WeiSen
 		});
 	}
 	
+	/* Enable Menu */
+	enable_menu()
+	{
+		$(document).keyup((e) =>
+		{
+			// Show Load Game
+			if (e.key === "Escape") {
+				WeiSen.showEscapeMenu();
+			}
+		});
+	}
+
+	showEscapeMenu()
+	{
+		if (!$("#game-overlay").length)
+		{
+			// Create HTML Element
+			$("#game").prepend("<div id='game-overlay'><h1>Save Files</h1></div>");
+			
+			// Load save files
+			var ws = JSON.parse(localStorage.getItem("ws"));
+			
+			if (ws == null)
+				ws = []
+			
+			// Append save files
+			for (var i = 0; i < ws.length; i++)
+			{
+				$("#game-overlay").append("<span class='save-btn' data-slot='" + i + "'>Save #" + i + "</span>");
+			}
+			
+			// Set click listener
+			$("#game-overlay .save-btn").on("click", (evt) =>
+			{
+				WeiSen.saveSlot = $(evt.target).data("slot");
+				
+				WeiSen.load_game(ws[WeiSen.saveSlot]);
+			});
+			
+			// CSS and Animation
+			$("#game-overlay").hide();
+			$("#game-overlay").css({
+				"width": $("#game").css("width"),
+				"height": $("#game").css("height")
+			});
+			$("#game-overlay").fadeIn();
+		}
+		else
+		{
+			$("#game-overlay").fadeOut(400, () =>
+			{
+				$("#game-overlay").remove();
+			});
+		}
+	}
+	
 	/* Save Game */
 	save_game()
 	{
@@ -351,59 +407,6 @@ function wait_finish(resolve, return_statement)
 		return_statement = $(return_statement).text();
 	
 	resolve(return_statement);
-}
-
-// Key Handlers
-$(document).keyup((e) =>
-{
-	// Show Load Game
-	if (e.key === "Escape") {
-		showEscapeMenu();
-    }
-});
-
-function showEscapeMenu()
-{
-	if (!$("#game-overlay").length)
-	{
-		// Create HTML Element
-		$("#game").prepend("<div id='game-overlay'><h1>Save Files</h1></div>");
-		
-		// Load save files
-		var ws = JSON.parse(localStorage.getItem("ws"));
-		
-		if (ws == null)
-			ws = []
-		
-		// Append save files
-		for (var i = 0; i < ws.length; i++)
-		{
-			$("#game-overlay").append("<span class='save-btn' data-slot='" + i + "'>Save #" + i + "</span>");
-		}
-		
-		// Set click listener
-		$("#game-overlay .save-btn").on("click", (evt) =>
-		{
-			WeiSen.saveSlot = $(evt.target).data("slot");
-			
-			WeiSen.load_game(ws[WeiSen.saveSlot]);
-		});
-		
-		// CSS and Animation
-		$("#game-overlay").hide();
-		$("#game-overlay").css({
-			"width": $("#game").css("width"),
-			"height": $("#game").css("height")
-		});
-		$("#game-overlay").fadeIn();
-	}
-	else
-	{
-		$("#game-overlay").fadeOut(400, () =>
-		{
-			$("#game-overlay").remove();
-		});
-	}
 }
 
 // MISC
