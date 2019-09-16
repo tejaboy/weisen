@@ -6,7 +6,6 @@ async function startGame()
 	
 	WeiSen.set_size("100vh", "100vw");
 	WeiSen.set_background("background.png");
-	WeiSen.hide_msg();
 	
 	JingSen = new Character("Jing Sen");
 	

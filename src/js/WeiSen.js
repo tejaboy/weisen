@@ -2,14 +2,22 @@ class _WeiSen
 {
 	constructor()
 	{
+		/* PATH */
 		this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
 		this.IMAGE_PATH = "/images/";
+		
+		/* Preloaders */
+		this.preloaded = {"images": {}}
+		
+		/* Save/Load */
 		this.saveData = {}
 		this.saveFunction = {}
 		
-		this.preloaded = {"images": {}}
+		/* Typing Effect */
+		this.typeSpeed = 15;
 	}
 	
+	/* Set Game Height */
 	set_size(height, width)
 	{
 		this.height = height;
@@ -29,7 +37,7 @@ class _WeiSen
 		$("#choices").css("top", parseInt(height) * 0.15 + this.heightEnder);
 	}
 	
-	/* Preloading Images */
+	/* Preload Images */
 	preload_image(tag, url)
 	{
 		url = this.get_image_path(url);
@@ -59,20 +67,40 @@ class _WeiSen
 		$("#say_name, #say_msg").fadeOut();
 	}
 	
+	/* Output Text to Message Box */
 	say(name, msg, returnPromise = true)
 	{
 		console.log(name + " say: " + msg);
 		
 		$("#say_name").html(name);
-		$("#say_msg").html(msg);
+		$("#say_msg").html("");
 		
-		this.show_msg()
+		this.show_msg();
+		
+		WeiSen.stopTypeWriter();
+		WeiSen.startTypeWriter(msg);
 		
 		if (!returnPromise) return;
 		
 		return wait();
 	}
 	
+	/* TypeWriter Effect */
+	startTypeWriter(msg, point = 0)
+	{
+		if (point < msg.length)
+		{
+			$("#say_msg").append(msg.charAt(point));
+			this.typeTimeout = setTimeout(() => { WeiSen.startTypeWriter(msg, ++point) }, this.typeSpeed);
+		}
+	}
+	
+	stopTypeWriter()
+	{
+		clearTimeout(this.typeTimeout);
+	}
+	
+	/* Show Sprite - async to wait for sprite to be shown */
 	async show(name, sprite, css)
 	{
 		console.log("Showing: " + name + " (" + sprite + ")");
@@ -134,11 +162,13 @@ class _WeiSen
 		});
 	}
 	
+	/* Hide Sprite - TODO: Animate it with fadeOut. */
 	hide(name)
 	{
 		$(".sprite_" + name.replaceAll(" ", "_")).remove();
 	}
 	
+	/* Prompt for input - any input. */
 	prompt(msg, default_value, name = undefined)
 	{
 		console.log("Prompting " + msg);
@@ -149,6 +179,7 @@ class _WeiSen
 			$("#say_name").show();
 		}
 		
+		WeiSen.stopTypeWriter();
 		$("#say_msg").html(msg + "<br /><span id='say_input' contentEditable='true'>" + default_value + "</span>");
 		$("#say_msg").fadeIn(400, (e) =>
 		{
@@ -158,6 +189,7 @@ class _WeiSen
 		return wait(false, false, true, $("#say_input"));
 	}
 	
+	/* Show a list of options for user to select - value will be returned as String. */
 	ask_choose(choices, msg, name)
 	{
 		$("#choices").html("");
@@ -220,6 +252,7 @@ class _WeiSen
 		console.log(localStorage.getItem(ws));
 	}
 	
+	/* Load Game */
 	load_game(data)
 	{
 		this.saveData = data.saveData;
@@ -246,8 +279,10 @@ class _WeiSen
 	}
 }
 
+/* Create Singleton */
 var WeiSen = new _WeiSen();
 
+/* Character Class */
 class Character
 {
 	constructor(name)
@@ -281,6 +316,8 @@ class Character
 	}
 }
 
+/* Wait Promise Helper Function - wait for click, space and/or enter with optional return_statement. */
+/* return_statement = _WeiSen.ask_choose and _WeiSen.prompt input value. */
 function wait(click = true, space = true, enter = true, return_statement = null)
 {
 	return new Promise((resolve, reject) =>
