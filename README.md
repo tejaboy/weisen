@@ -3,15 +3,48 @@ JavaScript Visual Novel Library
 
 ## Features
 
-* Dialogue System (typewriter effect included)
-* Show/Hide Sprite (HTML img tag)
-* Responsive Background/Sprite (any CSS property - e.g. `100vw` and `100vh`)
-* Live2D Model (check examples/Live2D)
-* Save/Load Game (work in progress)
+* Dialogue System
+* Character System
+* Responsive Website
+* Live2D Animation
+* Save/Load Game
 
 ## Good Read
 [Getting Started](https://github.com/tejaboy/weisen/wiki/Getting-Started)  
 [Workflow](https://github.com/tejaboy/weisen/wiki/Workflow)
+
+## Sample Code
+
+Look at how easy it is to create a visual novel with WeiSen!
+```javascript
+startGame();
+
+async function startGame()
+{
+	/* Call preload() to preload images */
+	preload();
+	
+	/* Set Game Size and Background */
+	WeiSen.set_size("100vh", "100vw");
+	WeiSen.set_background("background.png");
+	
+  /* Create and show Character */
+	JingSen = new Character("Jing Sen");
+	JingSen.show("JSConfident", {"right": 0, "bottom": 0});
+	
+	/* Let Character Speak, and then, ask user to choose from a list of options - 'Yes' or 'No' */
+	await JingSen.say("A very warm welcome developer!");
+	await JingSen.say("For more sample script with advanced feature - branching, saving etc - take a look at 'examples' directory.");
+	
+	/* Hide MSG Box */
+	WeiSen.hide_msg();
+}
+
+function preload()
+{
+	WeiSen.preload_image('JSConfident', 'Confident.png');
+}
+```
 
 ## Authors
 * [tejaboy](https://github.com/tejaboy)
