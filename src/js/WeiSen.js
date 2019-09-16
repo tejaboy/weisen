@@ -224,102 +224,193 @@ class _WeiSen
 	/* Enable Menu */
 	enable_menu()
 	{
+		/* Custom Menu */
+		// Add custom menu
+		$("#game").append('<ul id="custom-menu"></ul>');
+		$("#custom-menu").append('<li data-action="save-game">Save Game</li>');
+		$("#custom-menu").append('<li data-action="load-game">Load Game</li>');
+		
+		// Custom menu on right click
+		$("#game").contextmenu(function(evt)
+		{
+			// Avoid the real one
+			evt.preventDefault();
+			
+			// Show contextmenu
+			$("#custom-menu").finish().toggle(100).
+			
+			// In the right position (the mouse)
+			css({
+				top: evt.pageY + "px",
+				left: evt.pageX + "px"
+			});
+		});
+		
+		// Close custom menu on mouse down
+		$(document).bind("mousedown", function (e)
+		{
+			// If the clicked element is not the menu
+			if (!$(e.target).parents("#custom-menu").length > 0)
+			{
+				$("#custom-menu").hide(100);
+			}
+		});
+		
+		// Custom menu input
+		$("#custom-menu li").on("click", function()
+		{
+			// Actions
+			let action = $(this).attr("data-action")
+			
+			if (action == "save-game")
+			{
+				WeiSen.show_menu_save();
+			}
+			else if (action == "load-game")
+				WeiSen.show_menu_load();
+			
+			// Hide it AFTER the action was triggered
+			$("#custom-menu").hide(100);
+		});
+		
+		/* Menu Page */
+		// Escape Key
 		$(document).keyup((e) =>
 		{
 			// Show Load Game
-			if (e.key === "Escape") {
-				WeiSen.showEscapeMenu();
+			if (e.key === "Escape")
+			{
+				if (!$("#game-overlay").length)
+					WeiSen.show_menu();
+				else
+					WeiSen.hide_menu();
 			}
 		});
+		
+		// Render Menu Page
+		$("#game").prepend("<div id='game-overlay'></div>");
+		$("#game-overlay").hide();
 	}
-
-	showEscapeMenu()
+	
+	show_menu_save()
 	{
-		if (!$("#game-overlay").length)
+		$("#game-overlay").html("<h1>Save Game</h1>");
+		$("#game-overlay").append("<div id='overlay-options'><button id='option-new-save'>Create New Save</button></div>");
+		
+		// Load save files
+		var ws = JSON.parse(localStorage.getItem("ws"));
+		
+		if (ws == null)
+			ws = []
+		
+		// Append HTML - save files
+		for (var i = 0; i < ws.length; i++)
 		{
-			// Create HTML Element
-			$("#game").prepend("<div id='game-overlay'><h1>Save Files</h1></div>");
-			
-			// Load save files
-			var ws = JSON.parse(localStorage.getItem("ws"));
-			
-			if (ws == null)
-				ws = []
-			
-			// Append save files
-			for (var i = 0; i < ws.length; i++)
-			{
-				$("#game-overlay").append("<span class='save-btn' data-slot='" + i + "'>Save #" + i + "</span>");
-			}
-			
-			// Set click listener
-			$("#game-overlay .save-btn").on("click", (evt) =>
-			{
-				WeiSen.saveSlot = $(evt.target).data("slot");
-				
-				WeiSen.load_game(ws[WeiSen.saveSlot]);
-			});
-			
-			// CSS and Animation
-			$("#game-overlay").hide();
-			$("#game-overlay").css({
-				"width": $("#game").css("width"),
-				"height": $("#game").css("height")
-			});
-			$("#game-overlay").fadeIn();
+			$("#game-overlay").append("<span class='file' data-slot='" + i + "'>Save #" + i + "</span>");
 		}
-		else
+		
+		// Set click listener for save files
+		$("#game-overlay .file").on("click", (evt) =>
 		{
-			$("#game-overlay").fadeOut(400, () =>
-			{
-				$("#game-overlay").remove();
-			});
+			var slot = $(evt.target).data("slot");
+			
+			WeiSen.save_game(slot);
+		});
+		
+		// Set click listener for new save
+		$("#overlay-options #option-new-save").on("click", (evt) =>
+		{
+			WeiSen.save_game();
+			
+			WeiSen.show_menu_save();
+		});
+		
+		WeiSen.show_menu_animate();
+	}
+	
+	show_menu_load()
+	{
+		$("#game-overlay").html("<h1>Load Game</h1>");
+		
+		// Load save files
+		var ws = JSON.parse(localStorage.getItem("ws"));
+		
+		if (ws == null)
+			ws = []
+		
+		// Append HTML - save files
+		for (var i = 0; i < ws.length; i++)
+		{
+			$("#game-overlay").append("<span class='file' data-slot='" + i + "'>Save #" + i + "</span>");
 		}
+		
+		// Set click listener for save files
+		$("#game-overlay .file").on("click", (evt) =>
+		{
+			var slot = $(evt.target).data("slot");
+			
+			WeiSen.load_game(slot);
+		});
+		
+		WeiSen.show_menu_animate();
+	}
+	
+	show_menu_animate()
+	{
+		// CSS and Animation
+		$("#game-overlay").hide();
+		$("#game-overlay").css({
+			"width": $("#game").css("width"),
+			"height": $("#game").css("height")
+		});
+		$("#game-overlay").fadeIn();
+	}
+	
+	hide_menu()
+	{
+		$("#game-overlay").fadeOut();
 	}
 	
 	/* Save Game */
-	save_game()
+	save_game(slot = undefined)
 	{
-		//localStorage.setItem("ws", JSON.stringify([]));
-		// Load ws
-		var ws = localStorage.getItem("ws")
-		
-		if (ws == null)
-			ws = [];
-		else
-			ws = JSON.parse(ws);
+		// localStorage.setItem("ws", JSON.stringify([]));
+		var ws = WeiSen.get_save_files();
 		
 		var saveObject = {
-				"saveData": this.saveData,
-				"saveFunction": this.saveFunction
-			}
-		
-		if (WeiSen.saveSlot == null)
-		{
-			ws.push(saveObject);
-			
-			WeiSen.saveSlot = ws.length;
+			"saveData": this.saveData,
+			"saveFunction": this.saveFunction
 		}
+		
+		if (slot == undefined)
+			ws.push(saveObject);
 		else
 			ws[slot] = saveObject;
 		
 		localStorage.setItem("ws", JSON.stringify(ws));
-		
-		console.log(localStorage.getItem(ws));
 	}
 	
 	/* Load Game */
-	load_game(data)
+	load_game(slot)
 	{
+		var ws = WeiSen.get_save_files();
+		var data = ws[slot];
+		
 		this.saveData = data.saveData;
 		this.saveFunction = data.saveFunction;
 		
-		try { eval(this.saveFunction + "()"); } catch {}
-		
-		$("#game-overlay").fadeOut(400, () =>
+		try
 		{
-			$("#game-overlay").remove();
-		});
+			eval(this.saveFunction + "()");
+			
+			$("#choices").html("");
+		} 
+		catch
+		{
+			console.warn("No save function detected! Skipped!")
+		}
+		
+		WeiSen.hide_menu();
 	}
 	
 	// HELPERS
@@ -332,6 +423,18 @@ class _WeiSen
 		url = this.ROOT_PATH + this.IMAGE_PATH + url;
 		
 		return url;
+	}
+	
+	get_save_files()
+	{
+		var ws = localStorage.getItem("ws")
+		
+		if (ws == null)
+			ws = [];
+		else
+			ws = JSON.parse(ws);
+		
+		return ws;
 	}
 }
 

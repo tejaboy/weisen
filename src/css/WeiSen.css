@@ -30,7 +30,12 @@ html, body
 	font-family: sans-serif;
 }
 
-#game-overlay .save-btn
+#overlay-options
+{
+	text-align: center;
+}
+
+#game-overlay .file
 {
 	width: 100%;
 	font-size: 2em;
@@ -123,8 +128,39 @@ html, body
 	position: absolute;
 }
 
+/* Live2D Sprite */
 .ws-live2d
 {
 	position: absolute !important;
 	z-index: 1;
+}
+
+/* Custom Menu */
+#custom-menu
+{
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+#custom-menu li
+{
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+    user-select: none;
+}
+
+#custom-menu li:hover
+{
+    background-color: #DEF;
 }

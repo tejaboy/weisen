@@ -5,9 +5,6 @@ async function startGame()
 	/* Call preload() to preload images */
 	preload();
 	
-	/* Optional Settings */
-	WeiSen.enable_menu();
-	
 	/* Set Game Size and Background */
 	WeiSen.set_size("100vh", "100vw");
 	WeiSen.set_background("background.png");
