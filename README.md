@@ -28,7 +28,7 @@ async function startGame()
 	WeiSen.set_size("100vh", "100vw");
 	WeiSen.set_background("background.png");
 	
-  /* Create and show Character */
+        /* Create and show Character */
 	JingSen = new Character("Jing Sen");
 	JingSen.show("JSConfident", {"right": 0, "bottom": 0});
 	
