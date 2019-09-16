@@ -2,6 +2,9 @@ class _WeiSen
 {
 	constructor()
 	{
+		/* SELECTOR */
+		this.ROOT = "#game";
+		
 		/* PATH */
 		this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
 		this.IMAGE_PATH = "/images/";
@@ -15,6 +18,9 @@ class _WeiSen
 		
 		/* Typing Effect */
 		this.typeSpeed = 15;
+		
+		/* Add visual-novel HTML elements */
+		$("#game").append('<div id="visual-novel"><div id="choices"></div><div id="say_name"></div><div id="say_msg"></div></div></div>');
 	}
 	
 	/* Set Game Height */
