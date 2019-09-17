@@ -11,22 +11,26 @@ async function startGame()
 	
 	Emily.show("live2d/model/epsilon/Epsilon_free.model.json", {"right": 0, "bottom": 0, "width": 420, "height": 600});
 	await Emily.say("A very warm welcome developer!");
-	var reply = await Emily.ask_choose(["Yes", "No"], "Before we get started with the demo project, may I ask you a few question?");
 	
-	if (reply == "Yes")
+	WeiSen.play_sound("how_are_you.wav");
+	var reply = await Emily.ask_choose(["Great to see you!", "Sad"], "How are you?");
+	
+	if (reply == "Great to see you!")
 	{
+		WeiSen.play_sound("laughter.wav");
+		
 		var reply = await Emily.ask_choose(["Kinetic", "Otome", "Bishoujo", "Educational", "Drama", "Comedy"], "What's kind of visual novel do you plan to develop?")
 		
-		await Emily.say("Wow! You're planning to develop " + reply + " type of visual novel?")
-		await Emily.say("Great to hear that! Thank you for considering WeiSen engine! Enjoy your development!")
+		WeiSen.play_sound("kinda.wav");
+		await Emily.say("Oh ... !")
+		await Emily.say("is this the kinda thing you're into?");
 	}
 	else
 	{
-		await Emily.say("Ugh");
-		await Emily.say("Ugh ...");
-		await Emily.say("Ugh ... Okay");
-		await Emily.say("Ugh ... Okay ...");
-		await Emily.say("Goodbye!");
+		WeiSen.play_sound("why.wav");
+		
+		await Emily.say("Why?!?!");
+		await Emily.say("It's alright. We can talk about it next time.");
 	}
 	
 }

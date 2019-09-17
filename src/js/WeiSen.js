@@ -8,6 +8,7 @@ class _WeiSen
 		/* PATH */
 		this.ROOT_PATH = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
 		this.IMAGE_PATH = "/images/";
+		this.SOUND_PATH = "/sounds/";
 		
 		/* Preloaders */
 		this.preloaded = {"images": {}}
@@ -174,6 +175,23 @@ class _WeiSen
 	hide(name)
 	{
 		$(".sprite_" + name.replaceAll(" ", "_")).remove();
+	}
+	
+	/* Sound */
+	play_sound(url, loop = false)
+	{
+		var sound = new Audio(this.get_sound_path(url));
+		sound.loop = loop;
+		
+		const promise = sound.play();
+		
+		if (promise !== undefined)
+		{
+			promise.then(() => {
+			}).catch(error => {
+				console.warn("Error: " + error + ".");
+			});
+		}
 	}
 	
 	/* Prompt for input - any input. */
@@ -366,12 +384,7 @@ class _WeiSen
 	show_menu_animate()
 	{
 		// CSS and Animation
-		$("#game-overlay").hide();
-		$("#game-overlay").css({
-			"width": $("#game").css("width"),
-			"height": $("#game").css("height")
-		});
-		$("#game-overlay").fadeIn();
+		$("#game-overlay").hide().fadeIn();
 	}
 	
 	hide_menu()
@@ -428,9 +441,16 @@ class _WeiSen
 		if (url.substr(0, 4) == "http")
 			return url
 		
-		url = this.ROOT_PATH + this.IMAGE_PATH + url;
+		return this.ROOT_PATH + this.IMAGE_PATH + url;
+	}
+	
+	get_sound_path(url)
+	{
+		// If it is not local resource, return.
+		if (url.substr(0, 4) == "http")
+			return url
 		
-		return url;
+		return this.ROOT_PATH + this.SOUND_PATH + url;
 	}
 	
 	get_save_files()
