@@ -15,7 +15,7 @@ JavaScript Visual Novel Library
 
 ## Sample Code
 
-Look at how easy it is to create a visual novel with WeiSen!
+Below is a standard boilarplate to get started with WeiSen. For more information, look at the links above.
 ```javascript
 startGame();
 
